@@ -1,0 +1,13 @@
+[package]
+name = "anaso_components_stela"
+version = "0.0.1"
+description = "Components for Ana.so's Stela API"
+license = "MIT OR Apache-2.0"
+authors = ["Brandon Dyer <brandono@ana.so>"]
+repository = "https://github.com/Anaso-Internacia/anaso_components_stela"
+edition = "2021"
+
+[dependencies]
+anaso_site_api_models = "0.0.2"
+leptos = "0.6"
+leptos_router = "0.6"
