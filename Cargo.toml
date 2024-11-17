@@ -8,6 +8,19 @@ repository = "https://github.com/Anaso-Internacia/anaso_components_stela"
 edition = "2021"
 
 [dependencies]
-anaso_site_api_models = "0.0.2"
+anaso_site_api_models = "0.0.4"
 leptos = "0.6"
 leptos_router = "0.6"
+
+[dependencies.phosphor-leptos]
+version = "0.6"
+default-features = false
+features = [
+  "communication",
+  "editor",
+  "map",
+  "nature",
+  "office",
+  "people",
+  "system",
+]

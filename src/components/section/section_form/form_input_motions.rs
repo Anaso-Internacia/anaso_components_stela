@@ -1,12 +1,19 @@
-use std::rc::Rc;
+use std::sync::Arc;
 
 use anaso_site_api_models::stela;
 use leptos::*;
 
+use crate::VisualMotion;
+
 #[component]
 pub fn FormInputMotions(
-    input: Rc<stela::FormInputMotions>,
-    title: Option<Rc<str>>,
+    input: Arc<stela::FormInputMotions>,
+    title: Option<String>,
 ) -> impl IntoView {
-    view! { <p>"motions"</p> }
+    let motions = input
+        .motions
+        .iter()
+        .map(|motion| view! { <VisualMotion motion=motion.clone() /> })
+        .collect_view();
+    view! { <div class="stela--motion-bar">{title}{motions}</div> }
 }

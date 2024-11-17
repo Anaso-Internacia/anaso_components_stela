@@ -1,13 +1,26 @@
-use std::rc::Rc;
+use std::sync::Arc;
 
 use anaso_site_api_models::stela;
 use leptos::*;
 
+use crate::VisualMotion;
+
 use super::SectionCard;
 
 #[component]
-pub fn SectionHero(section: Rc<stela::SectionHero>, border: bool) -> impl IntoView {
-    let hero: Rc<stela::Hero> = section.hero.clone();
+pub fn SectionHero(section: Arc<stela::SectionHero>, border: bool) -> impl IntoView {
+    let hero: Arc<stela::Hero> = section.hero.clone();
+
+    let motions = hero
+        .motions
+        .clone()
+        .into_iter()
+        .map(|motion| {
+            //
+            view! { <VisualMotion motion=motion /> }
+        })
+        .collect_view();
+
     view! {
         <SectionCard
             border=border
@@ -17,6 +30,7 @@ pub fn SectionHero(section: Rc<stela::SectionHero>, border: bool) -> impl IntoVi
         >
             {hero.title.clone().map(|text| view! { <h2>{text}</h2> })}
             {hero.description.clone().map(|text| view! { <p>{text}</p> })}
+            <div>{motions}</div>
         </SectionCard>
     }
 }

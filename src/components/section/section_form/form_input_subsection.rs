@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::sync::Arc;
 
 use anaso_site_api_models::stela;
 use leptos::*;
@@ -7,8 +7,8 @@ use super::FormInput;
 
 #[component]
 pub fn FormInputSubsection(
-    input: Rc<stela::FormInputSubsection>,
-    title: Option<Rc<str>>,
+    input: Arc<stela::FormInputSubsection>,
+    title: Option<String>,
 ) -> impl IntoView {
     let inputs = input
         .inputs

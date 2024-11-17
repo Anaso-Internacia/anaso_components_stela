@@ -8,6 +8,13 @@ pub fn SectionCard(
     #[prop(default=None)] background_image_light: Option<stela::Image>,
     #[prop(default=None)] background_image_dark: Option<stela::Image>,
     #[prop(optional)] background_blur: Option<f32>,
+    /// Sets the `class` attribute on the underlying `<section>` tag, making it easier to style.
+    #[prop(optional, into)]
+    class: Option<AttributeValue>,
 ) -> impl IntoView {
-    view! { <div>{children()}</div> }
+    view! {
+        <section class=class class="stela--section" class=("stela--bordered", border)>
+            {children()}
+        </section>
+    }
 }

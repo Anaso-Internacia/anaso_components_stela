@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::sync::Arc;
 
 use anaso_site_api_models::stela;
 use leptos::*;
@@ -23,7 +23,7 @@ mod form_input_subsection;
 mod form_input_text;
 
 #[component]
-pub fn SectionForm(border: bool, section: Rc<stela::SectionForm>) -> impl IntoView {
+pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoView {
     let inputs = section
         .inputs
         .iter()
@@ -32,9 +32,10 @@ pub fn SectionForm(border: bool, section: Rc<stela::SectionForm>) -> impl IntoVi
 
     view! {
         <SectionCard border=border>
-            <Form action="#">
+            <Form action="#" class="stela--form">
                 {section.header.clone().map(|text| view! { <h2>{text}</h2> })}
-                {section.subheader.clone().map(|text| view! { <p>{text}</p> })} {inputs}
+                {section.subheader.clone().map(|text| view! { <p>{text}</p> })}
+                {inputs}
             </Form>
         </SectionCard>
     }

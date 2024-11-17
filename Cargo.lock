@@ -18,13 +18,14 @@ dependencies = [
  "anaso_site_api_models",
  "leptos",
  "leptos_router",
+ "phosphor-leptos",
 ]
 
 [[package]]
 name = "anaso_site_api_models"
-version = "0.0.2"
+version = "0.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d304f2d1dbc3a483cbfdc37c039a828288ed29d7309c818c2043a1e5fef8cbbf"
+checksum = "70a5d85d46dfe88de5585028e099e7f8ffec407d76ecaa2ffe99be1b3a996773"
 dependencies = [
  "bitflags",
  "serde",
@@ -1111,6 +1112,15 @@ name = "percent-encoding"
 version = "2.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e3148f5046208a5d56bcfc03053e3ca6334e51da8dfb19b6cdc8b306fae3283e"
+
+[[package]]
+name = "phosphor-leptos"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5938d7f598e3ab9e25bc906641a51f8c36861dd31365fba97d8de6efe17f7923"
+dependencies = [
+ "leptos",
+]
 
 [[package]]
 name = "pin-project"
