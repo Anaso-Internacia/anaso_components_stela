@@ -35,8 +35,10 @@ pub fn SectionPost(section: Arc<stela::SectionPost>, border: bool) -> impl IntoV
                 <div class="stela--post--motion-bar">
                     <div>{motions_tl}</div>
                     <div>{motions_tr}</div>
-                </div> {section.body_html.clone().map(|html| view! { <div inner_html=html /> })}
-                <div class="stela--post--motion-bar">
+                </div>
+                <div class="stela--post--content">
+                    {section.body_html.clone().map(|html| view! { <div inner_html=html /> })}
+                </div> <div class="stela--post--motion-bar">
                     <div>{motions_bl}</div>
                     <div>{motions_br}</div>
                 </div>

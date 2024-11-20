@@ -22,7 +22,8 @@ pub fn Page(page: Arc<stela::Page>) -> impl IntoView {
             </div>
             <div class="stela--page--sidebar">
                 <div class="stela--page--sidebar-content">
-        <div style="background-color: red; width: 128px">"Sidebar"</div></div>
+                    <div style="background-color: red; width: 128px">"Sidebar"</div>
+                </div>
             </div>
             <div class="stela--page--sections-list">{sections}</div>
         </div>

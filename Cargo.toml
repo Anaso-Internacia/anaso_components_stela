@@ -8,9 +8,13 @@ repository = "https://github.com/Anaso-Internacia/anaso_components_stela"
 edition = "2021"
 
 [dependencies]
-anaso_site_api_models = "0.0.4"
+anaso_site_api_models = "0.0.5"
+async-trait = "0.1"
+js-sys = "0.3"
 leptos = "0.6"
 leptos_router = "0.6"
+urlencoding = "2"
+wasm-bindgen-futures = "0.4"
 
 [dependencies.phosphor-leptos]
 version = "0.6"
@@ -24,3 +28,7 @@ features = [
   "people",
   "system",
 ]
+
+[dependencies.web-sys]
+version = "0.3"
+features = ["Navigator", "ShareData"]
