@@ -21,6 +21,8 @@ dependencies = [
  "leptos",
  "leptos_router",
  "phosphor-leptos",
+ "serde",
+ "serde_qs 0.13.0",
  "urlencoding",
  "wasm-bindgen-futures",
  "web-sys",
@@ -28,9 +30,9 @@ dependencies = [
 
 [[package]]
 name = "anaso_site_api_models"
-version = "0.0.5"
+version = "0.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "35c3e346999fbcb1cde1a9fa0bf276c0451107920fcd6a5b61b8cbeab0672954"
+checksum = "50835b1b168e12a5d378f2f969029dedcba01544c73a7efc832c570219db703d"
 dependencies = [
  "bitflags",
  "serde",
