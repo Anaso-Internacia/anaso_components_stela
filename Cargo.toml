@@ -8,10 +8,11 @@ repository = "https://github.com/Anaso-Internacia/anaso_components_stela"
 edition = "2021"
 
 [dependencies]
-anaso_site_api_models = "0.0.7"
+anaso_site_api_models = "0.0.11"
 async-trait = "0.1"
 js-sys = "0.3"
 leptos = "0.6"
+leptos_meta = "0.6"
 leptos_router = "0.6"
 serde = "1"
 serde_qs = "0.13"

@@ -6,6 +6,8 @@ use js_sys::wasm_bindgen::JsValue;
 use js_sys::wasm_bindgen::UnwrapThrowExt;
 use leptos::*;
 use leptos_router::*;
+use phosphor_leptos::Icon;
+use phosphor_leptos::CHECK_CIRCLE;
 use web_sys::HtmlButtonElement;
 use web_sys::HtmlFormElement;
 use web_sys::HtmlInputElement;
@@ -14,6 +16,7 @@ use crate::FormSubmitContext;
 
 use super::SectionCard;
 
+use self::form_input_cf_turnstile::*;
 use self::form_input_checkbox::*;
 use self::form_input_image::*;
 use self::form_input_markdown::*;
@@ -22,6 +25,7 @@ use self::form_input_radio::*;
 use self::form_input_subsection::*;
 use self::form_input_text::*;
 
+mod form_input_cf_turnstile;
 mod form_input_checkbox;
 mod form_input_image;
 mod form_input_markdown;
@@ -54,60 +58,86 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
         }
     };
 
-    let inputs = section
-        .inputs
-        .iter()
-        .map(|input| view! { <FormInput input=input.clone() /> })
-        .collect_view();
-
     let error_text = Signal::from(move || {
         value
             .get()
             .and_then(|v| v.ok())
             .and_then(|v| v.error.clone())
-            .unwrap_or_else(|| String::from("No error"))
+    });
+
+    let success_text = create_memo(move |_| {
+        value
+            .get()
+            .and_then(|v| v.ok())
+            .and_then(|v| v.success.clone())
     });
 
     view! {
-        <SectionCard border=border>
-            <form action=form_submit.get_value().url() method="POST" on:submit:undelegated=on_submit class="stela--form">
-                <p>{error_text}</p>
-                <input type="hidden" name="form_name" value="register"/>
-                <input type="hidden" name="extra_data" value=""/>
-                {section.header.clone().map(|text| view! { <h2>{text}</h2> })}
-                {section.subheader.clone().map(|text| view! { <p>{text}</p> })}
-                {inputs}
-            </form>
-        </SectionCard>
+        {move || {
+            if let Some(success_text) = success_text.get() {
+                view! {
+                    <SectionCard border=false class="stela--form-success">
+                        <Icon icon=CHECK_CIRCLE size="36px" />
+                        <span>{success_text}</span>
+                    </SectionCard>
+                }
+                    .into_view()
+            } else {
+                let section = section.clone();
+                let inputs = section
+                    .inputs
+                    .iter()
+                    .map(|input| view! { <FormInput input=input.clone() /> })
+                    .collect_view();
+                view! {
+                    <SectionCard border=border>
+                        <form
+                            action=form_submit.get_value().url()
+                            method="POST"
+                            on:submit:undelegated=on_submit
+                            class="stela--form"
+                        >
+                            {section.header.clone().map(|text| view! { <h2>{text}</h2> })}
+                            {section.subheader.clone().map(|text| view! { <p>{text}</p> })}
+                            <input type="hidden" name="form_name" value=section.form_name.clone() />
+                            <input type="hidden" name="extra_data" value="" />
+                            {move || {
+                                error_text
+                                    .get()
+                                    .map(|error_text| {
+                                        view! { <p class="stela--form--error">{error_text}</p> }
+                                    })
+                            }}
+                            {inputs}
+                        </form>
+                    </SectionCard>
+                }
+                    .into_view()
+            }
+        }}
     }
 }
 
 #[component]
 fn FormInput(input: stela::FormInput) -> impl IntoView {
-    let title = input.title;
-    match input.variant {
-        stela::FormInputVariant::Text(input) => {
-            view! { <FormInputText input=input title=title /> }.into_view()
+    match input {
+        stela::FormInput::Text(input) => view! { <FormInputText input=input /> }.into_view(),
+        stela::FormInput::Checkbox(input) => {
+            view! { <FormInputCheckbox input=input /> }.into_view()
         }
-        stela::FormInputVariant::Checkbox(input) => {
-            view! { <FormInputCheckbox input=input title=title /> }.into_view()
+        stela::FormInput::CfTurnstile(input) => {
+            view! { <FormInputCfTurnstile input=input /> }.into_view()
         }
-        stela::FormInputVariant::Image(input) => {
-            view! { <FormInputImage input=input title=title /> }.into_view()
+        stela::FormInput::Image(input) => view! { <FormInputImage input=input /> }.into_view(),
+        stela::FormInput::Markdown(input) => {
+            view! { <FormInputMarkdown input=input /> }.into_view()
         }
-        stela::FormInputVariant::Markdown(input) => {
-            view! { <FormInputMarkdown input=input title=title /> }.into_view()
+        stela::FormInput::Motions(input) => view! { <FormInputMotions input=input /> }.into_view(),
+        stela::FormInput::Radio(input) => view! { <FormInputRadio input=input /> }.into_view(),
+        stela::FormInput::Subsection(input) => {
+            view! { <FormInputSubsection input=input /> }.into_view()
         }
-        stela::FormInputVariant::Motions(input) => {
-            view! { <FormInputMotions input=input title=title /> }.into_view()
-        }
-        stela::FormInputVariant::Radio(input) => {
-            view! { <FormInputRadio input=input title=title /> }.into_view()
-        }
-        stela::FormInputVariant::Subsection(input) => {
-            view! { <FormInputSubsection input=input title=title /> }.into_view()
-        }
-        stela::FormInputVariant::Unknown => view! {}.into_view(),
+        stela::FormInput::Unknown => view! {}.into_view(),
     }
 }
 

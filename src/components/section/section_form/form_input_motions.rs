@@ -6,14 +6,11 @@ use leptos::*;
 use crate::VisualMotion;
 
 #[component]
-pub fn FormInputMotions(
-    input: Arc<stela::FormInputMotions>,
-    title: Option<String>,
-) -> impl IntoView {
+pub fn FormInputMotions(input: Arc<stela::FormInputMotions>) -> impl IntoView {
     let motions = input
         .motions
         .iter()
         .map(|motion| view! { <VisualMotion motion=motion.clone() /> })
         .collect_view();
-    view! { <div class="stela--motion-bar">{title}{motions}</div> }
+    view! { <div class="stela--motion-bar">{motions}</div> }
 }

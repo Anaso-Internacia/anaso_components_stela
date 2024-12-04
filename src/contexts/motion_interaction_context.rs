@@ -15,5 +15,9 @@ impl Deref for MotionInteractionContext {
 
 #[async_trait::async_trait]
 pub trait MotionInteractionContextTrait {
-    async fn emit(&self, data: String) -> Result<Arc<MotionApiCallResponse>, ServerFnError>;
+    async fn emit(
+        &self,
+        data: String,
+        toggle_state: Option<bool>,
+    ) -> Result<Arc<MotionApiCallResponse>, ServerFnError>;
 }

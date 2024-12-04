@@ -4,17 +4,16 @@ use anaso_site_api_models::stela;
 use leptos::*;
 
 #[component]
-pub fn FormInputCheckbox(
-    input: Arc<stela::FormInputCheckbox>,
-    title: Option<String>,
-) -> impl IntoView {
+pub fn FormInputCheckbox(input: Arc<stela::FormInputCheckbox>) -> impl IntoView {
     view! {
-        <input
-            type="checkbox"
-            id=input.name.clone()
-            name=input.name.clone()
-            prop:checked=input.default_checked
-        />
-        {title.map(|text| view! { <label for=input.name.clone()>{text}</label> })}
+        <div class="stela--form--checkbox">
+            <input
+                type="checkbox"
+                id=input.name.clone()
+                name=input.name.clone()
+                prop:checked=input.default_checked
+            />
+            {input.title.clone().map(|text| view! { <label for=input.name.clone()>{text}</label> })}
+        </div>
     }
 }

@@ -10,11 +10,18 @@ pub fn SectionCard(
     #[prop(optional)] background_blur: Option<f32>,
     /// Sets the `class` attribute on the underlying `<section>` tag, making it easier to style.
     #[prop(optional, into)]
-    class: Option<AttributeValue>,
+    class: Option<String>,
 ) -> impl IntoView {
-    view! {
-        <section class=class class="stela--section" class=("stela--bordered", border)>
-            {children()}
-        </section>
+    let mut classes = "stela--section ".to_string();
+
+    if let Some(class) = class {
+        classes += &class;
+        classes += " ";
     }
+
+    if border {
+        classes += " stela--bordered";
+    }
+
+    view! { <section class=classes>{children()}</section> }
 }

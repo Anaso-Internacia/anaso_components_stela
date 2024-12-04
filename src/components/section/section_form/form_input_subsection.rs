@@ -6,10 +6,7 @@ use leptos::*;
 use super::FormInput;
 
 #[component]
-pub fn FormInputSubsection(
-    input: Arc<stela::FormInputSubsection>,
-    title: Option<String>,
-) -> impl IntoView {
+pub fn FormInputSubsection(input: Arc<stela::FormInputSubsection>) -> impl IntoView {
     let inputs = input
         .inputs
         .iter()
@@ -17,7 +14,7 @@ pub fn FormInputSubsection(
         .collect_view();
 
     view! {
-        <h4>{title}</h4>
+        <h4>{input.title.clone()}</h4>
         {inputs}
     }
 }

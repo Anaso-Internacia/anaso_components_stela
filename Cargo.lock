@@ -19,6 +19,7 @@ dependencies = [
  "async-trait",
  "js-sys",
  "leptos",
+ "leptos_meta",
  "leptos_router",
  "phosphor-leptos",
  "serde",
@@ -30,9 +31,9 @@ dependencies = [
 
 [[package]]
 name = "anaso_site_api_models"
-version = "0.0.7"
+version = "0.0.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50835b1b168e12a5d378f2f969029dedcba01544c73a7efc832c570219db703d"
+checksum = "0a29fa8506553e1a0e6c07baa05187eff59acea3d311d70eac117044526a4380"
 dependencies = [
  "bitflags",
  "serde",
@@ -902,6 +903,20 @@ dependencies = [
  "syn",
  "tracing",
  "uuid",
+]
+
+[[package]]
+name = "leptos_meta"
+version = "0.6.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "25acc2f63cf91932013e400a95bf6e35e5d3dbb44a7b7e25a8e3057d12005b3b"
+dependencies = [
+ "cfg-if",
+ "indexmap 2.6.0",
+ "leptos",
+ "tracing",
+ "wasm-bindgen",
+ "web-sys",
 ]
 
 [[package]]
