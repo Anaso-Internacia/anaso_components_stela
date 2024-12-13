@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anaso_site_api_models::stela;
 use js_sys::wasm_bindgen::JsCast;
 use leptos::*;
-use web_sys::{HtmlElement, HtmlInputElement};
+use web_sys::HtmlInputElement;
 
 #[component]
 pub fn FormInputText(input: Arc<stela::FormInputText>) -> impl IntoView {

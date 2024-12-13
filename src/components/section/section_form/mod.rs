@@ -5,7 +5,6 @@ use js_sys::wasm_bindgen::JsCast;
 use js_sys::wasm_bindgen::JsValue;
 use js_sys::wasm_bindgen::UnwrapThrowExt;
 use leptos::*;
-use leptos_router::*;
 use phosphor_leptos::Icon;
 use phosphor_leptos::CHECK_CIRCLE;
 use web_sys::HtmlButtonElement;

@@ -13,7 +13,7 @@ dependencies = [
 
 [[package]]
 name = "anaso_components_stela"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "anaso_site_api_models",
  "async-trait",

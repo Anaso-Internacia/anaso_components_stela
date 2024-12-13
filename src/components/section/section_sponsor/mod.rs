@@ -5,5 +5,7 @@ use leptos::*;
 
 #[component]
 pub fn SectionSponsor(section: Arc<stela::SectionSponsor>, border: bool) -> impl IntoView {
+    let _ = section;
+    let _ = border;
     view! { <p>"sponsor"</p> }
 }

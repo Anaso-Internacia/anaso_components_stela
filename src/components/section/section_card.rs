@@ -12,6 +12,10 @@ pub fn SectionCard(
     #[prop(optional, into)]
     class: Option<String>,
 ) -> impl IntoView {
+    let _ = background_image_light;
+    let _ = background_image_dark;
+    let _ = background_blur;
+
     let mut classes = "stela--section ".to_string();
 
     if let Some(class) = class {

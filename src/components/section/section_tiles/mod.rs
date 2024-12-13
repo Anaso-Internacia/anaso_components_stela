@@ -5,5 +5,7 @@ use leptos::*;
 
 #[component]
 pub fn SectionTiles(section: Arc<stela::SectionTiles>, border: bool) -> impl IntoView {
+    let _ = section;
+    let _ = border;
     view! { <p>"tiles"</p> }
 }

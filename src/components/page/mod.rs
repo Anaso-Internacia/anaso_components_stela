@@ -28,7 +28,7 @@ pub fn Page(page: Arc<stela::Page>) -> impl IntoView {
                         .clone()
                         .into_iter()
                         .map(|motion| {
-                            //
+                            // 
                             view! { <VisualMotion motion=motion /> }
                         })
                         .collect_view();
