@@ -9,7 +9,7 @@ use web_sys::HtmlInputElement;
 pub fn FormInputText(input: Arc<stela::FormInputText>) -> impl IntoView {
     let esperanto = input.esperanto;
     let eo_button_enabled = create_rw_signal(false);
-    let esperantize = create_rw_signal(true);
+    let esperantize = create_rw_signal(input.esperanto);
 
     create_effect(move |_| eo_button_enabled.set(esperanto));
 
