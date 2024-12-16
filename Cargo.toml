@@ -1,6 +1,6 @@
 [package]
 name = "anaso_components_stela"
-version = "0.0.3"
+version = "0.0.4"
 description = "Components for Ana.so's Stela API"
 license = "MIT OR Apache-2.0"
 authors = ["Brandon Dyer <brandono@ana.so>"]

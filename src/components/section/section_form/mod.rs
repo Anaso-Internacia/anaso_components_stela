@@ -5,6 +5,7 @@ use js_sys::wasm_bindgen::JsCast;
 use js_sys::wasm_bindgen::JsValue;
 use js_sys::wasm_bindgen::UnwrapThrowExt;
 use leptos::*;
+use leptos_router::*;
 use phosphor_leptos::Icon;
 use phosphor_leptos::CHECK_CIRCLE;
 use web_sys::HtmlButtonElement;
@@ -71,7 +72,21 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
             .and_then(|v| v.success.clone())
     });
 
+    let redirect = create_memo(move |_| {
+        value
+            .get()
+            .and_then(|v| v.ok())
+            .and_then(|v| v.redirect.clone())
+    });
+
     view! {
+        {move || {
+            redirect.get().map(|redirect| {
+                view! {
+                    <Redirect path=redirect />
+                }.into_view()
+            })
+        }}
         {move || {
             if let Some(success_text) = success_text.get() {
                 view! {
