@@ -2,12 +2,11 @@ use std::sync::Arc;
 
 use anaso_site_api_models::stela;
 use js_sys::wasm_bindgen::JsCast;
-use js_sys::wasm_bindgen::JsValue;
-use js_sys::wasm_bindgen::UnwrapThrowExt;
 use leptos::*;
 use leptos_router::*;
 use phosphor_leptos::Icon;
 use phosphor_leptos::CHECK_CIRCLE;
+use server_fn::codec::MultipartData;
 use web_sys::HtmlButtonElement;
 use web_sys::HtmlFormElement;
 use web_sys::HtmlInputElement;
@@ -39,8 +38,8 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
     let form_submit = use_context::<FormSubmitContext>().unwrap();
     let error = create_rw_signal(None);
 
-    let action = create_action(move |data: &stela::FormCallData| {
-        let data = data.clone();
+    let action = create_action(move |data: &web_sys::FormData| {
+        let data: MultipartData = data.clone().into();
         async move { form_submit.get_value().submit(data).await }
     });
 
@@ -48,7 +47,7 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
 
     let on_submit = move |event: ev::SubmitEvent| {
         event.prevent_default();
-        match stela::FormCallData::from_event(&event) {
+        match form_data_from_event(&event) {
             Err(_e) => {
                 error.try_set(Some(String::from("error making form data")));
             }
@@ -91,8 +90,10 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
             if let Some(success_text) = success_text.get() {
                 view! {
                     <SectionCard border=false class="stela--form-success">
-                        <Icon icon=CHECK_CIRCLE size="36px" />
-                        <span>{success_text}</span>
+                        <div class="stela--section--padded">
+                            <Icon icon=CHECK_CIRCLE size="36px" />
+                            <span>{success_text}</span>
+                        </div>
                     </SectionCard>
                 }
                     .into_view()
@@ -109,7 +110,8 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
                             action=form_submit.get_value().url()
                             method="POST"
                             on:submit:undelegated=on_submit
-                            class="stela--form"
+                            class="stela--form stela--section--padded"
+                            enctype="multipart/form-data"
                         >
                             {section.header.clone().map(|text| view! { <h2>{text}</h2> })}
                             {section.subheader.clone().map(|text| view! { <p>{text}</p> })}
@@ -185,43 +187,5 @@ fn form_data_from_event(ev: &ev::SubmitEvent) -> Result<web_sys::FormData, FromF
             }
             Ok(form_data)
         }
-    }
-}
-
-/// Tries to deserialize a type from form data. This can be used for client-side
-/// validation during form submission.
-pub trait FromFormData
-where
-    Self: Sized + serde::de::DeserializeOwned,
-{
-    /// Tries to deserialize the data, given only the `submit` event.
-    fn from_event(ev: &web_sys::Event) -> Result<Self, FromFormDataError>;
-
-    /// Tries to deserialize the data, given the actual form data.
-    fn from_form_data(form_data: &web_sys::FormData) -> Result<Self, serde_qs::Error>;
-}
-
-#[derive(Debug)]
-pub enum FromFormDataError {
-    MissingForm(ev::Event),
-    FormData(JsValue),
-    Deserialization(serde_qs::Error),
-}
-
-impl<T> FromFormData for T
-where
-    T: serde::de::DeserializeOwned,
-{
-    fn from_event(ev: &ev::Event) -> Result<Self, FromFormDataError> {
-        let submit_ev = ev.unchecked_ref();
-        let form_data = form_data_from_event(submit_ev)?;
-        Self::from_form_data(&form_data).map_err(FromFormDataError::Deserialization)
-    }
-
-    fn from_form_data(form_data: &web_sys::FormData) -> Result<Self, serde_qs::Error> {
-        let data =
-            web_sys::UrlSearchParams::new_with_str_sequence_sequence(form_data).unwrap_throw();
-        let data = data.to_string().as_string().unwrap_or_default();
-        serde_qs::Config::new(5, false).deserialize_str::<Self>(&data)
     }
 }

@@ -30,31 +30,39 @@ pub fn SectionPost(section: Arc<stela::SectionPost>, border: bool) -> impl IntoV
         .collect_view();
 
     view! {
-        <SectionCard border=border>
+        <SectionCard border=border background_image_dark=section.background.clone() background_image_light=section.background.clone()>
             <div class="stela--post">
-                {section
-                    .title
-                    .clone()
-                    .map(|text| {
-                        view! {
-                            <h2>
-                                {if let Some(motion) = motion {
-                                    view! { <Motion motion=motion>{text.clone()}</Motion> }
-                                        .into_view()
-                                } else {
-                                    view! { {text} }.into_view()
-                                }}
-                            </h2>
-                        }
-                    })} <div class="stela--post--motion-bar">
-                    <div>{motions_tl}</div>
-                    <div>{motions_tr}</div>
+                <div class="stela--section--padded">
+                    {section
+                        .title
+                        .clone()
+                        .map(|text| {
+                            view! {
+                                <h2>
+                                    {if let Some(motion) = motion {
+                                        view! { <Motion motion=motion>{text.clone()}</Motion> }
+                                            .into_view()
+                                    } else {
+                                        view! { {text} }.into_view()
+                                    }}
+                                </h2>
+                            }
+                        })} <div class="stela--post--motion-bar">
+                        <div>{motions_tl}</div>
+                        <div>{motions_tr}</div>
+                    </div>
                 </div>
-                <div class="stela--post--content">
-                    {section.body_html.clone().map(|html| view! { <div inner_html=html /> })}
-                </div> <div class="stela--post--motion-bar">
-                    <div>{motions_bl}</div>
-                    <div>{motions_br}</div>
+                {section.image.clone().map(|image| {
+                    view!{ <img src=["https://ana.so/cdn-cgi/image/quality=80,w=672/cdn-cgi/imagedelivery/MRTPzGIpYfy00UVryjholQ/", &image.id, "/public"].concat()/>}
+                })}
+                <div class="stela--section--padded">
+                    <div class="stela--post--content">
+                        {section.body_html.clone().map(|html| view! { <div inner_html=html /> })}
+                    </div>
+                    <div class="stela--post--motion-bar">
+                        <div>{motions_bl}</div>
+                        <div>{motions_br}</div>
+                    </div>
                 </div>
             </div>
         </SectionCard>

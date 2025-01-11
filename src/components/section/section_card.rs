@@ -12,8 +12,6 @@ pub fn SectionCard(
     #[prop(optional, into)]
     class: Option<String>,
 ) -> impl IntoView {
-    let _ = background_image_light;
-    let _ = background_image_dark;
     let _ = background_blur;
 
     let mut classes = "stela--section ".to_string();
@@ -27,5 +25,18 @@ pub fn SectionCard(
         classes += " stela--bordered";
     }
 
-    view! { <section class=classes>{children()}</section> }
+    let mut style = String::new();
+
+    if let Some(bg_light) = background_image_light {
+        style.push_str("--bg_light: url(\"https://ana.so/cdn-cgi/image/quality=50,blur=10,w=50/cdn-cgi/imagedelivery/MRTPzGIpYfy00UVryjholQ/");
+        style.push_str(&bg_light.id);
+        style.push_str("/public\");");
+    }
+    if let Some(bg_dark) = background_image_dark {
+        style.push_str("--bg_dark: url(\"https://ana.so/cdn-cgi/image/quality=50,blur=10,w=50/cdn-cgi/imagedelivery/MRTPzGIpYfy00UVryjholQ/");
+        style.push_str(&bg_dark.id);
+        style.push_str("/public\");");
+    }
+
+    view! { <section class=classes style=style>{children()}</section> }
 }

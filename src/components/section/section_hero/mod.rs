@@ -28,9 +28,11 @@ pub fn SectionHero(section: Arc<stela::SectionHero>, border: bool) -> impl IntoV
             background_image_dark=hero.background_image_dark.clone()
             background_blur=5.0
         >
-            {hero.title.clone().map(|text| view! { <h2>{text}</h2> })}
-            {hero.description.clone().map(|text| view! { <p>{text}</p> })}
-            <div>{motions}</div>
+            <div class="stela--section--padded">
+                {hero.title.clone().map(|text| view! { <h2>{text}</h2> })}
+                {hero.description.clone().map(|text| view! { <p>{text}</p> })}
+                <div>{motions}</div>
+            </div>
         </SectionCard>
     }
 }
