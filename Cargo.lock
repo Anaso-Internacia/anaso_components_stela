@@ -13,7 +13,7 @@ dependencies = [
 
 [[package]]
 name = "anaso_components_stela"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "anaso_site_api_models",
  "async-trait",
@@ -32,9 +32,9 @@ dependencies = [
 
 [[package]]
 name = "anaso_site_api_models"
-version = "0.0.11"
+version = "0.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0a29fa8506553e1a0e6c07baa05187eff59acea3d311d70eac117044526a4380"
+checksum = "e2b6146a2963bf99aa8a971cd4699c187872d4acdaeb785a0501738c8cbbe4f5"
 dependencies = [
  "bitflags",
  "serde",

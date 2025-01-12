@@ -4,7 +4,8 @@ use href::MotionHref;
 use leptos::*;
 use phosphor_leptos::{
     Icon, IconData, IconWeight, CHAT_CIRCLE, FLAG, GLOBE_HEMISPHERE_WEST, HEART, HOUSE,
-    PLACEHOLDER, PLUS, PUSH_PIN, SHARE_FAT, SHIELD, SIGN_IN, SIGN_OUT, TOGGLE_LEFT, USER_CIRCLE,
+    MAGNIFYING_GLASS, PLACEHOLDER, PLUS, PUSH_PIN, SHARE_FAT, SHIELD, SIGN_IN, SIGN_OUT,
+    TOGGLE_LEFT, USER_CIRCLE,
 };
 use share::MotionShare;
 use submit::MotionSubmit;
@@ -104,18 +105,19 @@ pub fn VisualMotion(motion: stela::VisualMotion) -> impl IntoView {
 fn MotionIcon(icon: stela::MotionIcon, is_toggled: Signal<bool>) -> impl IntoView {
     let (icon, mirrored): (IconData, MaybeSignal<bool>) = match icon {
         stela::MotionIcon::ChatCircle => (CHAT_CIRCLE, true.into()),
+        stela::MotionIcon::Flag => (FLAG, false.into()),
+        stela::MotionIcon::GlobeHemisphereWest => (GLOBE_HEMISPHERE_WEST, false.into()),
         stela::MotionIcon::Heart => (HEART, false.into()),
         stela::MotionIcon::House => (HOUSE, false.into()),
-        stela::MotionIcon::Shield => (SHIELD, false.into()),
+        stela::MotionIcon::MagnifyingGlass => (MAGNIFYING_GLASS, false.into()),
+        stela::MotionIcon::Plus => (PLUS, false.into()),
         stela::MotionIcon::PushPin => (PUSH_PIN, false.into()),
         stela::MotionIcon::ShareFat => (SHARE_FAT, false.into()),
-        stela::MotionIcon::Toggle => (TOGGLE_LEFT, is_toggled.into()),
-        stela::MotionIcon::Unknown => (PLACEHOLDER, false.into()),
-        stela::MotionIcon::GlobeHemisphereWest => (GLOBE_HEMISPHERE_WEST, false.into()),
-        stela::MotionIcon::Plus => (PLUS, false.into()),
+        stela::MotionIcon::Shield => (SHIELD, false.into()),
         stela::MotionIcon::SignIn => (SIGN_IN, false.into()),
         stela::MotionIcon::SignOut => (SIGN_OUT, false.into()),
-        stela::MotionIcon::Flag => (FLAG, false.into()),
+        stela::MotionIcon::Toggle => (TOGGLE_LEFT, is_toggled.into()),
+        stela::MotionIcon::Unknown => (PLACEHOLDER, false.into()),
         stela::MotionIcon::UserCircle => (USER_CIRCLE, false.into()),
     };
 
