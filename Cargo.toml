@@ -1,6 +1,6 @@
 [package]
 name = "anaso_components_stela"
-version = "0.0.6"
+version = "0.0.7"
 description = "Components for Ana.so's Stela API"
 license = "MIT OR Apache-2.0"
 authors = ["Brandon Dyer <brandono@ana.so>"]
@@ -11,17 +11,17 @@ edition = "2021"
 anaso_site_api_models = "0.0.12"
 async-trait = "0.1"
 js-sys = "0.3"
-leptos = "0.6"
-leptos_meta = "0.6"
-leptos_router = "0.6"
+leptos = "0.7"
+leptos_meta = "0.7"
+leptos_router = "0.7"
 serde = "1"
 serde_qs = "0.13"
-server_fn = { version = "0.6", features = ["multipart", "browser"] }
+server_fn = { version = "0.7", features = ["multipart", "browser"] }
 urlencoding = "2"
 wasm-bindgen-futures = "0.4"
 
 [dependencies.phosphor-leptos]
-version = "0.6"
+version = "0.7"
 default-features = false
 features = [
   "communication",

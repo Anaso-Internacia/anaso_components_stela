@@ -2,22 +2,22 @@ use std::sync::Arc;
 
 use anaso_site_api_models::stela;
 use js_sys::wasm_bindgen::JsCast;
-use leptos::*;
+use leptos::{ev, prelude::*};
 use web_sys::HtmlInputElement;
 
 #[component]
 pub fn FormInputText(input: Arc<stela::FormInputText>) -> impl IntoView {
     let esperanto = input.esperanto;
-    let eo_button_enabled = create_rw_signal(false);
-    let esperantize = create_rw_signal(input.esperanto);
+    let eo_button_enabled = RwSignal::new(false);
+    let esperantize = RwSignal::new(input.esperanto);
 
-    create_effect(move |_| eo_button_enabled.set(esperanto));
+    Effect::new(move |_| eo_button_enabled.set(esperanto));
 
     let on_btn_click = move |_| {
         esperantize.update(|v| *v ^= true);
     };
 
-    let btn_class = Signal::from(move || {
+    let btn_class = Signal::derive(move || {
         if esperantize.get() {
             "eo-button active"
         } else {
@@ -105,14 +105,14 @@ pub fn FormInputText(input: Arc<stela::FormInputText>) -> impl IntoView {
             />
             {move || {
                 if eo_button_enabled.get() {
-                    view! {
+                    Some(view! {
                         <button class=btn_class type="button" on:click=on_btn_click>
                             "X̂"
                         </button>
                     }
-                        .into_view()
+                            )
                 } else {
-                    view! {}.into_view()
+                            None
                 }
             }}
         </div>

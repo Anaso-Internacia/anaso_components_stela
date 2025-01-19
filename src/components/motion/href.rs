@@ -1,8 +1,8 @@
 use std::sync::Arc;
 
 use anaso_site_api_models::stela;
-use leptos::*;
-use leptos_router::*;
+use leptos::prelude::*;
+use leptos_router::components::A;
 
 #[component]
 pub fn MotionHref(
@@ -14,8 +14,8 @@ pub fn MotionHref(
     view! {
         <A
             href=href.uri.clone()
-            class=class
-            target=if href.new_tab == Some(true) { "_blank" } else { "" }
+            attr:class=class
+            attr:target=if href.new_tab == Some(true) { "_blank" } else { "" }
             attr:rel=if href.new_tab == Some(true) { "noopener noreferrer" } else { "" }
         >
             {children()}

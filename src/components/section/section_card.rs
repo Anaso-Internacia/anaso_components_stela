@@ -1,5 +1,5 @@
 use anaso_site_api_models::stela;
-use leptos::*;
+use leptos::prelude::*;
 
 #[component]
 pub fn SectionCard(

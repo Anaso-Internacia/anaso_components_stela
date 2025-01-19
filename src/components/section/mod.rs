@@ -1,5 +1,6 @@
 use anaso_site_api_models::stela;
-use leptos::*;
+use leptos::either::either;
+use leptos::prelude::*;
 
 use self::section_card::SectionCard;
 
@@ -18,22 +19,22 @@ mod section_tiles;
 
 #[component]
 pub fn Section(border: bool, section: stela::Section) -> impl IntoView {
-    match section {
+    either!(section,
         stela::Section::Form(section) => {
-            view! { <SectionForm section=section border=border /> }.into_view()
-        }
+            view! { <SectionForm section=section border=border /> }
+        },
         stela::Section::Hero(section) => {
-            view! { <SectionHero section=section border=border /> }.into_view()
-        }
+            view! { <SectionHero section=section border=border /> }
+        },
         stela::Section::Post(section) => {
-            view! { <SectionPost section=section border=border /> }.into_view()
-        }
+            view! { <SectionPost section=section border=border /> }
+        },
         stela::Section::Sponsor(section) => {
-            view! { <SectionSponsor section=section border=border /> }.into_view()
-        }
+            view! { <SectionSponsor section=section border=border /> }
+        },
         stela::Section::Tiles(section) => {
-            view! { <SectionTiles section=section border=border /> }.into_view()
-        }
-        stela::Section::Unknown => view! {}.into_view(),
-    }
+            view! { <SectionTiles section=section border=border /> }
+        },
+        stela::Section::Unknown => (),
+    )
 }

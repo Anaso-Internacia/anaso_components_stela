@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use anaso_site_api_models::stela;
-use leptos::*;
+use leptos::prelude::*;
 use leptos_meta::*;
 
 #[component]

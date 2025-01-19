@@ -2,8 +2,10 @@ use std::sync::Arc;
 
 use anaso_site_api_models::stela;
 use js_sys::wasm_bindgen::JsCast;
-use leptos::*;
-use leptos_router::*;
+use leptos::either::EitherOf9;
+use leptos::ev;
+use leptos::prelude::*;
+use leptos_router::components::Redirect;
 use phosphor_leptos::Icon;
 use phosphor_leptos::CHECK_CIRCLE;
 use server_fn::codec::MultipartData;
@@ -36,11 +38,11 @@ mod form_input_text;
 #[component]
 pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoView {
     let form_submit = use_context::<FormSubmitContext>().unwrap();
-    let error = create_rw_signal(None);
+    let error = RwSignal::new(None);
 
-    let action = create_action(move |data: &web_sys::FormData| {
+    let action = Action::new_local(move |data: &web_sys::FormData| {
         let data: MultipartData = data.clone().into();
-        async move { form_submit.get_value().submit(data).await }
+        async move { form_submit.0.get_value().submit(data).await }
     });
 
     let value = action.value();
@@ -52,26 +54,26 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
                 error.try_set(Some(String::from("error making form data")));
             }
             Ok(data) => {
-                action.dispatch(data);
+                action.dispatch_local(data);
             }
         }
     };
 
-    let error_text = Signal::from(move || {
+    let error_text = Signal::derive(move || {
         value
             .get()
             .and_then(|v| v.ok())
             .and_then(|v| v.error.clone())
     });
 
-    let success_text = create_memo(move |_| {
+    let success_text = Memo::new(move |_| {
         value
             .get()
             .and_then(|v| v.ok())
             .and_then(|v| v.success.clone())
     });
 
-    let redirect = create_memo(move |_| {
+    let redirect = Memo::new(move |_| {
         value
             .get()
             .and_then(|v| v.ok())
@@ -83,7 +85,7 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
             redirect.get().map(|redirect| {
                 view! {
                     <Redirect path=redirect />
-                }.into_view()
+                }
             })
         }}
         {move || {
@@ -96,7 +98,6 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
                         </div>
                     </SectionCard>
                 }
-                    .into_view()
             } else {
                 let section = section.clone();
                 let inputs = section
@@ -109,7 +110,7 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
                         <form
                             action=form_submit.get_value().url()
                             method="POST"
-                            on:submit:undelegated=on_submit
+                            on:submit=on_submit
                             class="stela--form stela--section--padded"
                             enctype="multipart/form-data"
                         >
@@ -128,7 +129,6 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
                         </form>
                     </SectionCard>
                 }
-                    .into_view()
             }
         }}
     }
@@ -137,23 +137,31 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
 #[component]
 fn FormInput(input: stela::FormInput) -> impl IntoView {
     match input {
-        stela::FormInput::Text(input) => view! { <FormInputText input=input /> }.into_view(),
+        stela::FormInput::Text(input) => {
+            EitherOf9::A(view! { <FormInputText input=input /> }.into_view())
+        }
         stela::FormInput::Checkbox(input) => {
-            view! { <FormInputCheckbox input=input /> }.into_view()
+            EitherOf9::B(view! { <FormInputCheckbox input=input /> }.into_view())
         }
         stela::FormInput::CfTurnstile(input) => {
-            view! { <FormInputCfTurnstile input=input /> }.into_view()
+            EitherOf9::C(view! { <FormInputCfTurnstile input=input /> }.into_view())
         }
-        stela::FormInput::Image(input) => view! { <FormInputImage input=input /> }.into_view(),
+        stela::FormInput::Image(input) => {
+            EitherOf9::D(view! { <FormInputImage input=input /> }.into_view())
+        }
         stela::FormInput::Markdown(input) => {
-            view! { <FormInputMarkdown input=input /> }.into_view()
+            EitherOf9::E(view! { <FormInputMarkdown input=input /> }.into_view())
         }
-        stela::FormInput::Motions(input) => view! { <FormInputMotions input=input /> }.into_view(),
-        stela::FormInput::Radio(input) => view! { <FormInputRadio input=input /> }.into_view(),
+        stela::FormInput::Motions(input) => {
+            EitherOf9::F(view! { <FormInputMotions input=input /> }.into_view())
+        }
+        stela::FormInput::Radio(input) => {
+            EitherOf9::G(view! { <FormInputRadio input=input /> }.into_view())
+        }
         stela::FormInput::Subsection(input) => {
-            view! { <FormInputSubsection input=input /> }.into_view()
+            EitherOf9::H(view! { <FormInputSubsection input=input /> }.into_view())
         }
-        stela::FormInput::Unknown => view! {}.into_view(),
+        stela::FormInput::Unknown => EitherOf9::I(().into_view()),
     }
 }
 

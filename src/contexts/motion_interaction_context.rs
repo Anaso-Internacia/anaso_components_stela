@@ -1,13 +1,15 @@
 use std::{ops::Deref, sync::Arc};
 
 use anaso_site_api_models::stela::MotionApiCallResponse;
-use leptos::*;
+use leptos::prelude::*;
 
 #[derive(Clone, Copy)]
-pub struct MotionInteractionContext(pub StoredValue<Arc<dyn MotionInteractionContextTrait>>);
+pub struct MotionInteractionContext(
+    pub StoredValue<Arc<dyn MotionInteractionContextTrait>, LocalStorage>,
+);
 
 impl Deref for MotionInteractionContext {
-    type Target = StoredValue<Arc<dyn MotionInteractionContextTrait>>;
+    type Target = StoredValue<Arc<dyn MotionInteractionContextTrait>, LocalStorage>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }

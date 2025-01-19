@@ -1,8 +1,8 @@
 use std::sync::Arc;
 
 use anaso_site_api_models::stela;
-use leptos::*;
-use leptos_router::*;
+use leptos::{prelude::*, task::spawn_local};
+use leptos_router::components::*;
 
 use crate::MotionInteractionContext;
 
@@ -19,13 +19,13 @@ pub fn MotionApiCall(
     let _ = icon;
 
     let motion_interaction_context = use_context::<MotionInteractionContext>().unwrap();
-    let redirect = create_rw_signal(None);
+    let redirect = RwSignal::new(None);
 
     view! {
         <a
             href=["/motion_interaction/", &urlencoding::encode(&api_call.data)].concat()
             class=class
-            on:click:undelegated={
+            on:click={
                 let data = api_call.data.clone();
                 move |ev| {
                     ev.prevent_default();
@@ -64,10 +64,7 @@ pub fn MotionApiCall(
                 }
             }
         >
-            {move || match redirect.get() {
-                Some(redirect) => view! {<Redirect path=redirect/>}.into_view(),
-                None =>view!{}.into_view()
-            }}
+            {move || redirect.get().map(|redirect| view! { <Redirect path=redirect /> })}
             {children()}
         </a>
     }

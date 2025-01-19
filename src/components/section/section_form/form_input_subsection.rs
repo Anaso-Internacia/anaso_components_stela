@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use anaso_site_api_models::stela;
-use leptos::*;
+use leptos::prelude::*;
 
 use super::FormInput;
 
@@ -10,7 +10,7 @@ pub fn FormInputSubsection(input: Arc<stela::FormInputSubsection>) -> impl IntoV
     let inputs = input
         .inputs
         .iter()
-        .map(|input| view! { <FormInput input=input.clone() /> })
+        .map(|input| view! { <FormInput input=input.clone() /> }.into_any())
         .collect_view();
 
     view! {

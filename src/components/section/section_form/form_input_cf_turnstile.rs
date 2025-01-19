@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use anaso_site_api_models::stela;
-use leptos::*;
+use leptos::prelude::*;
 
 #[component]
 pub fn FormInputCfTurnstile(input: Arc<stela::FormInputCfTurnstile>) -> impl IntoView {
@@ -17,7 +17,7 @@ pub fn FormInputCfTurnstile(input: Arc<stela::FormInputCfTurnstile>) -> impl Int
         <script
             id="cloudflare-challenge-api"
             src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-            async_="true"
+            async="true"
             defer="true"
         />
     }

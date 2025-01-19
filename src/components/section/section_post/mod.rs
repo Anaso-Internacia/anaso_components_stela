@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use anaso_site_api_models::stela;
-use leptos::*;
+use leptos::{either::Either, prelude::*};
 
 use crate::{components::section::section_card::SectionCard, Motion, VisualMotion};
 
@@ -40,10 +40,10 @@ pub fn SectionPost(section: Arc<stela::SectionPost>, border: bool) -> impl IntoV
                             view! {
                                 <h2>
                                     {if let Some(motion) = motion {
-                                        view! { <Motion motion=motion>{text.clone()}</Motion> }
-                                            .into_view()
+                                        Either::Left(view! { <Motion motion=motion>{text.clone()}</Motion> }
+                                    )
                                     } else {
-                                        view! { {text} }.into_view()
+                                        Either::Right(view! { {text} })
                                     }}
                                 </h2>
                             }
