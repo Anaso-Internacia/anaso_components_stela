@@ -30,7 +30,11 @@ pub fn SectionPost(section: Arc<stela::SectionPost>, border: bool) -> impl IntoV
         .collect_view();
 
     view! {
-        <SectionCard border=border background_image_dark=section.background.clone() background_image_light=section.background.clone()>
+        <SectionCard
+            border=border
+            background_image_dark=section.background.clone()
+            background_image_light=section.background.clone()
+        >
             <div class="stela--post">
                 <div class="stela--section--padded">
                     {section
@@ -40,8 +44,9 @@ pub fn SectionPost(section: Arc<stela::SectionPost>, border: bool) -> impl IntoV
                             view! {
                                 <h2>
                                     {if let Some(motion) = motion {
-                                        Either::Left(view! { <Motion motion=motion>{text.clone()}</Motion> }
-                                    )
+                                        Either::Left(
+                                            view! { <Motion motion=motion>{text.clone()}</Motion> },
+                                        )
                                     } else {
                                         Either::Right(view! { {text} })
                                     }}
@@ -52,9 +57,19 @@ pub fn SectionPost(section: Arc<stela::SectionPost>, border: bool) -> impl IntoV
                         <div>{motions_tr}</div>
                     </div>
                 </div>
-                {section.image.clone().map(|image| {
-                    view!{ <img src=["https://ana.so/cdn-cgi/image/quality=80,w=672/cdn-cgi/imagedelivery/MRTPzGIpYfy00UVryjholQ/", &image.id, "/public"].concat()/>}
-                })}
+                {section
+                    .image
+                    .clone()
+                    .map(|image| {
+                        view! {
+                            <img src=[
+                                "https://ana.so/cdn-cgi/image/quality=80,w=672/cdn-cgi/imagedelivery/MRTPzGIpYfy00UVryjholQ/",
+                                &image.id,
+                                "/public",
+                            ]
+                                .concat() />
+                        }
+                    })}
                 <div class="stela--section--padded">
                     <div class="stela--post--content">
                         {section.body_html.clone().map(|html| view! { <div inner_html=html /> })}

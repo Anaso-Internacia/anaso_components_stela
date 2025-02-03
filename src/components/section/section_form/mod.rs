@@ -82,11 +82,11 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
 
     view! {
         {move || {
-            redirect.get().map(|redirect| {
-                view! {
-                    <Redirect path=redirect />
-                }
-            })
+            redirect
+                .get()
+                .map(|redirect| {
+                    view! { <Redirect path=redirect /> }
+                })
         }}
         {move || {
             if let Some(success_text) = success_text.get() {
@@ -117,7 +117,11 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
                             {section.header.clone().map(|text| view! { <h2>{text}</h2> })}
                             {section.subheader.clone().map(|text| view! { <p>{text}</p> })}
                             <input type="hidden" name="form_name" value=section.form_name.clone() />
-                            <input type="hidden" name="extra_data" value=section.extra_data.clone() />
+                            <input
+                                type="hidden"
+                                name="extra_data"
+                                value=section.extra_data.clone()
+                            />
                             {move || {
                                 error_text
                                     .get()

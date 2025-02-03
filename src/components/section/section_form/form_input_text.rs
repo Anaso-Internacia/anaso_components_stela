@@ -105,14 +105,15 @@ pub fn FormInputText(input: Arc<stela::FormInputText>) -> impl IntoView {
             />
             {move || {
                 if eo_button_enabled.get() {
-                    Some(view! {
-                        <button class=btn_class type="button" on:click=on_btn_click>
-                            "X̂"
-                        </button>
-                    }
-                            )
+                    Some(
+                        view! {
+                            <button class=btn_class type="button" on:click=on_btn_click>
+                                "X̂"
+                            </button>
+                        },
+                    )
                 } else {
-                            None
+                    None
                 }
             }}
         </div>

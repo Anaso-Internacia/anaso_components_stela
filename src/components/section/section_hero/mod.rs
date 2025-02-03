@@ -30,8 +30,7 @@ pub fn SectionHero(section: Arc<stela::SectionHero>, border: bool) -> impl IntoV
         >
             <div class="stela--section--padded">
                 {hero.title.clone().map(|text| view! { <h2>{text}</h2> })}
-                {hero.description.clone().map(|text| view! { <p>{text}</p> })}
-                <div>{motions}</div>
+                {hero.description.clone().map(|text| view! { <p>{text}</p> })} <div>{motions}</div>
             </div>
         </SectionCard>
     }
