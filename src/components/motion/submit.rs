@@ -12,8 +12,8 @@ pub fn MotionSubmit(
 ) -> impl IntoView {
     let _ = submit;
     view! {
-            <button type="submit" name="submit" value="" class=class>
-                {children()}
-            </button>
+        <button type="submit" name="submit" value="" class=class>
+            {children()}
+        </button>
     }
 }

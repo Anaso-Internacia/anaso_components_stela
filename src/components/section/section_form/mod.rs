@@ -24,6 +24,7 @@ use self::form_input_markdown::*;
 use self::form_input_motions::*;
 use self::form_input_radio::*;
 use self::form_input_subsection::*;
+use self::form_input_tabs::*;
 use self::form_input_text::*;
 
 mod form_input_cf_turnstile;
@@ -33,6 +34,7 @@ mod form_input_markdown;
 mod form_input_motions;
 mod form_input_radio;
 mod form_input_subsection;
+mod form_input_tabs;
 mod form_input_text;
 
 #[component]
@@ -82,11 +84,11 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
 
     view! {
         {move || {
-            redirect.get().map(|redirect| {
-                view! {
-                    <Redirect path=redirect />
-                }
-            })
+            redirect
+                .get()
+                .map(|redirect| {
+                    view! { <Redirect path=redirect /> }
+                })
         }}
         {move || {
             if let Some(success_text) = success_text.get() {
@@ -117,7 +119,11 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
                             {section.header.clone().map(|text| view! { <h2>{text}</h2> })}
                             {section.subheader.clone().map(|text| view! { <p>{text}</p> })}
                             <input type="hidden" name="form_name" value=section.form_name.clone() />
-                            <input type="hidden" name="extra_data" value=section.extra_data.clone() />
+                            <input
+                                type="hidden"
+                                name="extra_data"
+                                value=section.extra_data.clone()
+                            />
                             {move || {
                                 error_text
                                     .get()
@@ -137,31 +143,34 @@ pub fn SectionForm(border: bool, section: Arc<stela::SectionForm>) -> impl IntoV
 #[component]
 fn FormInput(input: stela::FormInput) -> impl IntoView {
     match input {
-        stela::FormInput::Text(input) => {
-            EitherOf9::A(view! { <FormInputText input=input /> }.into_view())
-        }
-        stela::FormInput::Checkbox(input) => {
-            EitherOf9::B(view! { <FormInputCheckbox input=input /> }.into_view())
-        }
-        stela::FormInput::CfTurnstile(input) => {
-            EitherOf9::C(view! { <FormInputCfTurnstile input=input /> }.into_view())
-        }
-        stela::FormInput::Image(input) => {
-            EitherOf9::D(view! { <FormInputImage input=input /> }.into_view())
-        }
-        stela::FormInput::Markdown(input) => {
-            EitherOf9::E(view! { <FormInputMarkdown input=input /> }.into_view())
-        }
-        stela::FormInput::Motions(input) => {
-            EitherOf9::F(view! { <FormInputMotions input=input /> }.into_view())
-        }
-        stela::FormInput::Radio(input) => {
-            EitherOf9::G(view! { <FormInputRadio input=input /> }.into_view())
-        }
-        stela::FormInput::Subsection(input) => {
-            EitherOf9::H(view! { <FormInputSubsection input=input /> }.into_view())
-        }
-        stela::FormInput::Unknown => EitherOf9::I(().into_view()),
+        stela::FormInput::Text(input) => Some(EitherOf9::A(
+            view! { <FormInputText input=input /> }.into_view(),
+        )),
+        stela::FormInput::Checkbox(input) => Some(EitherOf9::B(
+            view! { <FormInputCheckbox input=input /> }.into_view(),
+        )),
+        stela::FormInput::CfTurnstile(input) => Some(EitherOf9::C(
+            view! { <FormInputCfTurnstile input=input /> }.into_view(),
+        )),
+        stela::FormInput::Image(input) => Some(EitherOf9::D(
+            view! { <FormInputImage input=input /> }.into_view(),
+        )),
+        stela::FormInput::Markdown(input) => Some(EitherOf9::E(
+            view! { <FormInputMarkdown input=input /> }.into_view(),
+        )),
+        stela::FormInput::Motions(input) => Some(EitherOf9::F(
+            view! { <FormInputMotions input=input /> }.into_view(),
+        )),
+        stela::FormInput::Radio(input) => Some(EitherOf9::G(
+            view! { <FormInputRadio input=input /> }.into_view(),
+        )),
+        stela::FormInput::Subsection(input) => Some(EitherOf9::H(
+            view! { <FormInputSubsection input=input /> }.into_view(),
+        )),
+        stela::FormInput::Tabs(input) => Some(EitherOf9::I(
+            view! { <FormInputTabs input=input /> }.into_view(),
+        )),
+        stela::FormInput::Unknown => None,
     }
 }
 

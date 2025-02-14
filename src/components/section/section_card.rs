@@ -38,5 +38,9 @@ pub fn SectionCard(
         style.push_str("/public\");");
     }
 
-    view! { <section class=classes style=style>{children()}</section> }
+    view! {
+        <section class=classes style=style>
+            {children()}
+        </section>
+    }
 }

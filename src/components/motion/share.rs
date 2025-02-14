@@ -48,25 +48,25 @@ pub fn MotionShare(
             let class = class.clone();
             move || {
                 if can_share.get() {
-                    Some(view! {
-                        <button
-                            class=class.clone()
-                            on:click={
-                                move |_| {
+                    Some(
+                        view! {
+                            <button
+                                class=class.clone()
+                                on:click=move |_| {
                                     spawn_local(async move {
                                         if let Some(window) = web_sys::window() {
                                             let navigator = window.navigator();
-                                            let promise = navigator.share_with_data(&share_data.get_value());
+                                            let promise = navigator
+                                                .share_with_data(&share_data.get_value());
                                             let _res = wasm_bindgen_futures::JsFuture::from(promise)
                                                 .await;
                                         }
                                     });
                                 }
-                            }
-                        >
-                            {children()}
-                        </button>
-                    }
+                            >
+                                {children()}
+                            </button>
+                        },
                     )
                 } else {
                     None

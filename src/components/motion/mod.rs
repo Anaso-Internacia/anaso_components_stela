@@ -3,7 +3,7 @@ use api_call::MotionApiCall;
 use href::MotionHref;
 use leptos::{either::EitherOf5, prelude::*};
 use phosphor_leptos::{
-    Icon, IconData, IconWeight, CHAT_CIRCLE, FLAG, GLOBE_HEMISPHERE_WEST, HEART, HOUSE,
+    Icon, IconData, IconWeight, BELL, CHAT_CIRCLE, FLAG, GLOBE_HEMISPHERE_WEST, HEART, HOUSE,
     MAGNIFYING_GLASS, PLACEHOLDER, PLUS, PUSH_PIN, SHARE_FAT, SHIELD, SIGN_IN, SIGN_OUT,
     TOGGLE_LEFT, USER_CIRCLE,
 };
@@ -46,7 +46,9 @@ pub fn Motion(
         }),
 
         stela::Motion::Submit(submit) => EitherOf5::D(view! {
-            <MotionSubmit submit=submit class=class>{children()}</MotionSubmit>
+            <MotionSubmit submit=submit class=class>
+                {children()}
+            </MotionSubmit>
         }),
 
         stela::Motion::Unknown => EitherOf5::E(()),
@@ -100,6 +102,7 @@ pub fn VisualMotion(motion: stela::VisualMotion) -> impl IntoView {
 #[component]
 fn MotionIcon(icon: stela::MotionIcon, is_toggled: Signal<bool>) -> impl IntoView {
     let (icon, mirrored): (IconData, Signal<bool>) = match icon {
+        stela::MotionIcon::Bell => (BELL, false.into()),
         stela::MotionIcon::ChatCircle => (CHAT_CIRCLE, true.into()),
         stela::MotionIcon::Flag => (FLAG, false.into()),
         stela::MotionIcon::GlobeHemisphereWest => (GLOBE_HEMISPHERE_WEST, false.into()),
