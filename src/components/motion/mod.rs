@@ -3,7 +3,7 @@ use api_call::MotionApiCall;
 use href::MotionHref;
 use leptos::{either::EitherOf5, prelude::*};
 use phosphor_leptos::{
-    Icon, IconData, IconWeight, CHAT_CIRCLE, FLAG, GLOBE_HEMISPHERE_WEST, HEART, HOUSE,
+    Icon, IconData, IconWeight, BELL, CHAT_CIRCLE, FLAG, GLOBE_HEMISPHERE_WEST, HEART, HOUSE,
     MAGNIFYING_GLASS, PLACEHOLDER, PLUS, PUSH_PIN, SHARE_FAT, SHIELD, SIGN_IN, SIGN_OUT,
     TOGGLE_LEFT, USER_CIRCLE,
 };
@@ -60,6 +60,8 @@ pub fn VisualMotion(motion: stela::VisualMotion) -> impl IntoView {
     let is_toggled = RwSignal::new(initial_toggle.unwrap_or_default());
     let text = RwSignal::new(motion.title.clone());
     let icon = RwSignal::new(motion.icon);
+    let image = motion.image.clone();
+    let image_url = image.map(|image| ["https://ana.so/cdn-cgi/image/quality=80,w=24,h=24/cdn-cgi/imagedelivery/MRTPzGIpYfy00UVryjholQ/", &image.id, "/public"].concat());
 
     let variant_class = match motion.variant {
         stela::MotionVariant::Button | stela::MotionVariant::Unknown => {
@@ -87,11 +89,11 @@ pub fn VisualMotion(motion: stela::VisualMotion) -> impl IntoView {
             icon=icon
             class=["stela--visual-motion ", variant_class, " ", color_class].concat()
         >
-
             {move || {
                 icon.get()
                     .map(|icon| view! { <MotionIcon icon=icon is_toggled=is_toggled.into() /> })
             }}
+            {image_url.clone().map(|image_url| view! { <img src=image_url />})}
             {text}
         </Motion>
     }
@@ -100,6 +102,7 @@ pub fn VisualMotion(motion: stela::VisualMotion) -> impl IntoView {
 #[component]
 fn MotionIcon(icon: stela::MotionIcon, is_toggled: Signal<bool>) -> impl IntoView {
     let (icon, mirrored): (IconData, Signal<bool>) = match icon {
+        stela::MotionIcon::Bell => (BELL, false.into()),
         stela::MotionIcon::ChatCircle => (CHAT_CIRCLE, true.into()),
         stela::MotionIcon::Flag => (FLAG, false.into()),
         stela::MotionIcon::GlobeHemisphereWest => (GLOBE_HEMISPHERE_WEST, false.into()),

@@ -161,6 +161,7 @@ fn FormInput(input: stela::FormInput) -> impl IntoView {
         stela::FormInput::Subsection(input) => {
             EitherOf9::H(view! { <FormInputSubsection input=input /> }.into_view())
         }
+        stela::FormInput::Tabs(_) => todo!(),
         stela::FormInput::Unknown => EitherOf9::I(().into_view()),
     }
 }
