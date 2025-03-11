@@ -1,6 +1,6 @@
 [package]
 name = "anaso_components_stela"
-version = "0.0.7"
+version = "0.0.8"
 description = "Components for Ana.so's Stela API"
 license = "MIT OR Apache-2.0"
 authors = ["Brandon Dyer <brandono@ana.so>"]
@@ -8,7 +8,7 @@ repository = "https://github.com/Anaso-Internacia/anaso_components_stela"
 edition = "2021"
 
 [dependencies]
-anaso_site_api_models = "0.0.16"
+anaso_site_api_models = "0.0.19"
 async-trait = "0.1"
 js-sys = "0.3"
 leptos = "0.7"
